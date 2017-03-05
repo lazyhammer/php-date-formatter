@@ -10,8 +10,20 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
-var DateFormatter;
-(function () {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define([], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.DateFormatter = factory();
+    }
+}(this, function () {
     "use strict";
 
     var _compare, _lpad, _extend, _indexOf, defaultSettings, DAY, HOUR;
@@ -76,7 +88,7 @@ var DateFormatter;
         tzClip: /[^-+\dA-Z]/g
     };
 
-    DateFormatter = function (options) {
+    function DateFormatter(options) {
         var self = this, config = _extend(defaultSettings, options);
         self.dateSettings = config.dateSettings;
         self.separators = config.separators;
@@ -617,4 +629,6 @@ var DateFormatter;
             return '';
         }
     };
-})();
+
+    return DateFormatter;
+}));
